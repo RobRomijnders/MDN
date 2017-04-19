@@ -34,7 +34,7 @@ from model import *
 
 """Hyperparameters"""
 config = {}
-config['MDN'] = MDN = False       #Set to falso for only the classification network
+config['MDN'] = MDN = True       #Set to falso for only the classification network
 config['num_layers'] = 2         #Number of layers for the LSTM
 config['hidden_size'] = 64     #Hidden size of the LSTM
 config['max_grad_norm'] = 1      #Clip the gradients during training

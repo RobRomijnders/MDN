@@ -86,15 +86,15 @@ class Model():
       # For comparison with XYZ, only up to last time_step
       # --> because for final time_step you cannot make a prediction
       outputs_tensor = tf.concat(0, outputs[:-1])
-      # is of size [batch_size*seq_len by output_units]
+      # is of size [batch_size*(seq_len-1) by output_units]
       h_out_tensor = tf.nn.xw_plus_b(outputs_tensor, W_o, b_o)
 
     with tf.name_scope('MDN_over_next_vector') as scope:
       # Next two lines are rather ugly, But its the most efficient way to
       # reshape the data
-      h_xyz = tf.reshape(h_out_tensor, (sl - 1, batch_size, output_units))
+      h_xyz = tf.reshape(h_out_tensor, (batch_size, sl - 1, output_units))
       # transpose to [batch_size, output_units, sl-1]
-      h_xyz = tf.transpose(h_xyz, [1, 2, 0])
+      h_xyz = tf.transpose(h_xyz, [0, 2, 1])
       # x_next = tf.slice(x,[0,0,1],[batch_size,3,sl-1])  #in size [batch_size,
       # output_units, sl-1]
       x_next = tf.sub(self.x[:, :3, 1:], self.x[:, :3, :sl - 1])
